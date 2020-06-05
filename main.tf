@@ -1,3 +1,10 @@
+provider "azurerm" {
+    # The "feature" block is required for AzureRM provider 2.x.
+    # If you're using version 1.x, the "features" block is not allowed.
+    version = "~>2.0"
+    features {}
+}
+
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
     name                  = "myVM"
     location              = "eastus"
@@ -11,25 +18,6 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
         storage_account_type = "Premium_LRS"
     }
 
-    source_image_reference {
-        publisher = "Canonical"
-        offer     = "UbuntuServer"
-        sku       = "16.04.0-LTS"
-        version   = "latest"
-    }
-
-    computer_name  = "myvm"
-    admin_username = "azureuser"
-    disable_password_authentication = true
-        
-    admin_ssh_key {
-        username       = "azureuser"
-        public_key     = tls_private_key.example_ssh.public_key_openssh
-    }
-
-    boot_diagnostics {
-        storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
-    }
 
     tags = {
         environment = "Terraform Demo"
