@@ -5,14 +5,14 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+  name     = "matt"
+  location = "east"
 }
 
 resource "azurerm_mysql_server" "example" {
   name                = "example-mysqlserver"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.matt.location
+  resource_group_name = azurerm_resource_group.matt.name
 
   administrator_login          = "mysqladminun"
   administrator_login_password = "H@Sh1CoR3!"
