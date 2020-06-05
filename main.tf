@@ -8,8 +8,8 @@ provider "azurerm" {
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
     name                  = "myVM"
     location              = "eastus"
-    resource_group_name   = "mattsresource"
-    network_interface_ids = "mattsnetwork"
+    resource_group_name   = azurerm_resource_group.test.name
+    network_interface_ids = [azurerm_network_interface.main.id]
     size                  = "Standard_DS1_v2"
 
     os_disk {
