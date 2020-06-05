@@ -1,25 +1,29 @@
 provider "azurerm" {
-    # The "feature" block is required for AzureRM provider 2.x.
-    # If you're using version 1.x, the "features" block is not allowed.
-    version = "~>2.0"
-    features {}
+  features {}
 }
 
-resource "azurerm_linux_virtual_machine" "myterraformvm" {
-    name                  = "myVM"
-    location              = "eastus"
-    resource_group_name   = azurerm_resource_group.test.name
-    network_interface_ids = [azurerm_network_interface.main.id]
-    size                  = "Standard_DS1_v2"
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "West Europe"
+}
 
-    os_disk {
-        name              = "myOsDisk"
-        caching           = "ReadWrite"
-        storage_account_type = "Premium_LRS"
-    }
+resource "azurerm_mysql_server" "example" {
+  name                = "example-mysqlserver"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
 
+  administrator_login          = "mysqladminun"
+  administrator_login_password = "H@Sh1CoR3!"
 
-    tags = {
-        environment = "Terraform Demo"
-    }
+  sku_name   = "B_Gen5_2"
+  storage_mb = 5120
+  version    = "5.7"
+
+  auto_grow_enabled                 = true
+  backup_retention_days             = 7
+  geo_redundant_backup_enabled      = true
+  infrastructure_encryption_enabled = true
+  public_network_access_enabled     = false
+  ssl_enforcement_enabled           = true
+  ssl_minimal_tls_version_enforced  = "TLS1_2"
 }
