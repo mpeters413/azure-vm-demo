@@ -1,6 +1,3 @@
-terraform {
-  required_version = ">= 0.11.1"
-}
 
 variable "location" {
   description = "Azure location in which to create resources"
